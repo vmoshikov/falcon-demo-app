@@ -6,7 +6,6 @@ from exceptions import MyException
 from repository import JsonRepository
 from hooks import login_required
 from falcon import Request, Response
-from filtering_hook import FilteringHook
 import jwt
 
 SECRET = "DFSDDF2345msf23asdfs"
@@ -100,7 +99,6 @@ class BooksController:
     """
     filtering_fields = ("year", "pages")
 
-    @falcon.before(FilteringHook())
     def on_get(self, req: Request, resp: Response):
         # Получение фильтров
         offset = req.get_param_as_int('offset')

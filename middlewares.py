@@ -48,8 +48,11 @@ class Middleware:
             logger.info('MIDDLEWARE: Страница авторизации')
             data = req.get_media()
             logger.debug('Идентификация')
+            print(data.get('login'), data.get('password'))
             if data.get('login') and data.get('password'):
-                if USERS.get(data.get('login')):
+                user = USERS.get(data.get('login'))
+                print(user.get('login'), user.get('password'))
+                if user:
                     if True:
                         # TODO  реализовать проверку пароля
                         pass
