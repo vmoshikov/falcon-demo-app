@@ -3,12 +3,12 @@
 
 
 ### POST Login
-POST http://localhost:8000/login/
+POST http://localhost:8080/login/
 Content-Type: application/json
 
 {
   "login": "admin",
-  "password": "admin"
+  "password": "password"
 }
 
 ### GET Books
@@ -17,19 +17,20 @@ Content-Type: application/json
 # lt - меньше
 # lte - меньше или равно
 
-GET http://localhost:8000/books/?offset=3&limit=3&year=gte:1850&pages=lte:250
+GET http://localhost:8080/books/?offset=3&limit=3&year=gte:1850&pages=lte:250
 
 ### GET Book by id (correct)
-GET http://localhost:8000/books/5
-Authorization: Bearer YWRtaW5AYWRtaW4=
+GET http://localhost:8080/books/5
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpbiI6ImFkbWluIiwicGFzc3dvcmQiOiJwYXNzd29yZCJ9.q94AabQoj2Ra7hh-zmttF3qu7toEP9XkdXy5M_U4PmU
 
 
 ### GET Book by id (incorrect)
-GET http://localhost:8000/books/55
+GET http://localhost:8080/books/55
 
 ### PUT Update
-PUT http://localhost:8000/books/5?key=value
+PUT http://localhost:8080/books/5?key=value
 Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpbiI6ImFkbWluIiwicGFzc3dvcmQiOiJwYXNzd29yZCJ9.q94AabQoj2Ra7hh-zmttF3qu7toEP9XkdXy5M_U4PmU
 
 {
   "id": 5,
@@ -45,8 +46,9 @@ Content-Type: application/json
 
 
 ### POST Create Book
-POST http://localhost:8000/books/
+POST http://localhost:8080/books/
 Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpbiI6ImFkbWluIiwicGFzc3dvcmQiOiJwYXNzd29yZCJ9.q94AabQoj2Ra7hh-zmttF3qu7toEP9XkdXy5M_U4PmU
 
 {
   "author": "Unknown",
@@ -63,7 +65,7 @@ Content-Type: application/json
 
 
 ###
-GET http://localhost:8000/users/12
+GET http://localhost:8080/users/12
 
 ####
 #POST http://localhost:8123/

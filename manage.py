@@ -1,4 +1,4 @@
-from views import BooksController, BookController, Auth, Tests
+from views import BooksController, BookController, Authorisation
 from exceptions import MyException
 from middlewares import AuthMiddleware, AddHeaderComponent
 import falcon
@@ -11,8 +11,8 @@ middlewares = [
 
 app = falcon.App(middleware=middlewares)
 
-app.add_route('/tests/', Tests())
-app.add_route('/login/', Auth())
+# app.add_route('/tests/', None)
+app.add_route('/login/', Authorisation())
 app.add_route('/books/', BooksController())
 app.add_route('/books/{book_id}', BookController())
 

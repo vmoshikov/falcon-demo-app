@@ -9,6 +9,7 @@ from falcon import Request, Response
 import jwt
 
 SECRET = "DFSDDF2345msf23asdfs"
+
 books = JsonRepository()
 
 
@@ -24,37 +25,7 @@ def compare_ops(op, f_val, i_val):
             return True
 
 
-class Tests:
-    def on_post(self, req: Request, resp: Response):
-        form = req.get_media()
-
-        form_data = {}
-
-        for part in form:
-            part.text
-            # if part.content_type == 'application/json':
-            #     # Body part is a JSON document, do something useful with it
-            #     resp.media = part.get_media()
-            # elif part.name == 'datafile':
-            #     while True:
-            #         # Do something with the uploaded data (file)
-            #         chunk = part.stream.read(8192)
-            #         if not chunk:
-            #             break
-            #         # feed_data(chunk)
-            # elif part.name == 'imagedata':
-            #     # Store this body part in a file.
-            #     filename = os.path.join('', part.secure_filename)
-            #     with open(filename, 'wb') as dest:
-            #         part.stream.pipe(dest)
-            # else:
-            #     # Do something else
-            #     form_data[part.name] = part.text
-
-        pass
-
-
-class Auth:
+class Authorisation:
     """
     Контроллер авторизации
     """

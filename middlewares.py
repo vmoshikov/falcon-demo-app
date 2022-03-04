@@ -4,15 +4,16 @@ from exceptions import MyException
 import json
 import jwt
 from logger import logger
-from passlib.hash import sha256_crypt
+import hashlib
 
+SECRET = "DFSDDF2345msf23asdfs"
 
 USERS = {
     "admin":
-    {
-        "login": 'admin',
-        "password": sha256_crypt.encrypt('admin')
-    }
+        {
+            "login": "admin",
+            "password": hashlib.sha256("password".encode()).hexdigest()
+        }
 }
 
 # Поделиться https://github.com/falconry/falcon-policy
@@ -33,6 +34,7 @@ class Middleware:
         запрос может быть эффективно перенаправлен если засетить в req.path другое значение
         в методе process_request()
         """
+        logger.warning('MIDDLEWARE: process_request')
         pass
 
     def process_resource(self, req, resp, resource, params):
@@ -44,30 +46,8 @@ class Middleware:
         params: это словарь (dict) с параметрами полученными из URI
         """
         logger.warning('MIDDLEWARE: process_resource')
-        if req.path == '/login/':
-            logger.info('MIDDLEWARE: Страница авторизации')
-            data = req.get_media()
-            logger.debug('Идентификация')
-            print(data.get('login'), data.get('password'))
-            if data.get('login') and data.get('password'):
-                user = USERS.get(data.get('login'))
-                print(user.get('login'), user.get('password'))
-                if user:
-                    if True:
-                        # TODO  реализовать проверку пароля
-                        pass
-                    else:
-                        raise falcon.HTTPUnauthorized
+        pass
 
-        elif req.get_header("Authorization", required=True):
-            header = req.get_header("Authorization", required=True).split(' ')
-            token = header[1]
-            # TODO see token
-            pass
-
-        else:
-            # Исключение
-            raise MyException('Ошибка')
 
     def process_response(self, req, resp, resource, req_succeeded):
         """
@@ -80,6 +60,35 @@ class Middleware:
 
 
 class AuthMiddleware(Middleware):
-    def process_request(self, req, resp):
+    def process_resource(self, req, resp, resource, params):
+        logger.warning('MIDDLEWARE: process_resource')
+        if req.path == '/login/':
+            logger.info('MIDDLEWARE: Страница авторизации')
+            data = req.get_media()
+            logger.debug('Идентификация')
+            if data.get('login') and data.get("password"):
+                user = USERS.get(data.get('login'))
+                if user and user.get("password") == hashlib.sha256(data.get("password").encode()).hexdigest():
+                    # Логин и пароль корректный
+                    return True
+                else:
+                    raise falcon.HTTPUnauthorized
+
+        elif req.method == 'POST' or req.method == 'PUT':
+            # POST требует авторизации
+            if req.get_header("Authorization", required=True):
+                header = req.get_header("Authorization", required=True).split(' ')
+                token = header[1]
+
+                result = jwt.decode(token, SECRET, algorithms=["HS256"])
+                logger.warning(result)
+                user = USERS.get(result.get('login'))
+
+                if not user and not user.get("password") == hashlib.sha256(result.get("password").encode()).hexdigest():
+                    raise falcon.HTTPUnauthorized
+
+            else:
+                # Исключение
+                raise MyException('Ошибка')
+
         # resp.complete = True
-        logger.warning('MIDDLEWARE: process_request')
