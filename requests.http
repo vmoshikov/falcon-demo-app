@@ -1,0 +1,71 @@
+###
+#GET https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT
+
+
+### POST Login
+POST http://localhost:8000/login/
+Content-Type: application/json
+
+{
+  "login": "admin",
+  "password": "admin"
+}
+
+### GET Books
+# gt - больше
+# gte - больше или равно
+# lt - меньше
+# lte - меньше или равно
+
+GET http://localhost:8000/books/?offset=3&limit=3&year=gte:1850&pages=lte:250
+
+### GET Book by id (correct)
+GET http://localhost:8000/books/5
+Authorization: Bearer YWRtaW5AYWRtaW4=
+
+
+### GET Book by id (incorrect)
+GET http://localhost:8000/books/55
+
+### PUT Update
+PUT http://localhost:8000/books/5?key=value
+Content-Type: application/json
+
+{
+  "id": 5,
+  "author": "Unknown",
+  "country": "India/Iran/Iraq/Egypt/Tajikistan",
+  "imageLink": "images/one-thousand-and-one-nights.jpg",
+  "language": "Arabic",
+  "link": "https://en.wikipedia.org/wiki/One_Thousand_and_One_Nights\n",
+  "pages": 288,
+  "title": "One Thousand and One Nights",
+  "year": 2500
+}
+
+
+### POST Create Book
+POST http://localhost:8000/books/
+Content-Type: application/json
+
+{
+  "author": "Unknown",
+  "country": "India/Iran/Iraq/Egypt/Tajikistan",
+  "imageLink": "images/one-thousand-and-one-nights.jpg",
+  "language": "Arabic",
+  "link": "https://en.wikipedia.org/wiki/One_Thousand_and_One_Nights\n",
+  "pages": 288,
+  "title": "One Thousand and One Nights",
+  "year": 2500
+}
+
+
+
+
+###
+GET http://localhost:8000/users/12
+
+####
+#POST http://localhost:8123/
+#Content-Type: application/json
+
